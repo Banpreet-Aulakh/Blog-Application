@@ -25,7 +25,7 @@
       <input type="hidden" name="postId" value=<%= posts[i].id %>>
       <button type="submit" class="delete-button">&times</button>
     </form>    
-    <form action="/edit-post" method="POST" class="edit-form">
+    <form action="/edit-post" method="GET" class="edit-form">
       <input type="hidden" name="postId" value=<%= posts[i].id %>>
       <button type="submit" class="edit-button">✏️</button>
     </form>
