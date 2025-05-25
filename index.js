@@ -9,7 +9,17 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", { route: "/" });
+});
+
+app.get("/create-post", (req, res) => {
+  res.render("index", { route: "/create-post" });
+});
+
+app.post("/create-post", (req, res) => {
+  const { title, content } = req.body;
+
+  res.redirect("/");
 });
 
 app.listen(port, () => {
