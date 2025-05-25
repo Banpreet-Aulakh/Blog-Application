@@ -21,10 +21,13 @@
   <h1>Your Posts</h1>
   <% if (locals.posts === undefined || locals.posts.length === 0) { %>
   <p>Make some posts I'm lonely :(</p>  <% } else { %><% for (let i = 0; i < locals.posts.length; i++) { %>
-  <div class="post">
-    <form action="/delete-post" method="POST" class="delete-form">
+  <div class="post">    <form action="/delete-post" method="POST" class="delete-form">
       <input type="hidden" name="postId" value=<%= posts[i].id %>>
-      <button type="submit" class="delete-button">X</button>
+      <button type="submit" class="delete-button">&times</button>
+    </form>    
+    <form action="/edit-post" method="POST" class="edit-form">
+      <input type="hidden" name="postId" value=<%= posts[i].id %>>
+      <button type="submit" class="edit-button">✏️</button>
     </form>
     <h2><%= posts[i].title %></h2>
     <p><%= posts[i].content %></p>
