@@ -133,20 +133,19 @@ main {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #ff4444;
+  background-color: transparent;
   color: white;
   border: none;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  font-size: 14px;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
   font-weight: bold;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .delete-form {
@@ -158,12 +157,87 @@ main {
 }
 
 .delete-button:hover {
-  background-color: #ff2222;
-  transform: scale(1.1);
-  box-shadow: 0 3px 8px rgba(255, 68, 68, 0.3);
+  background-color: rgba(255, 66, 66, 0.18);
+  box-shadow: 0 0 0 6px rgba(255, 66, 66, 0.22), 0 2px 8px rgba(255, 66, 66, 0.13);
+  outline: 2px solid #ff4242;
+  outline-offset: 0px;
+  transform: scale(1.13);
+  border-radius: 50%;
 }
 
 .delete-button:active {
+  transform: scale(0.95);
+}
+
+.edit-form {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  margin: 0;
+  padding: 0;
+}
+
+button[type="submit"].edit-button {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+button[type="submit"].edit-button:hover {
+  background-color: rgba(255, 140, 66, 0.18);
+  box-shadow: 0 0 0 6px rgba(255, 140, 66, 0.25), 0 2px 8px rgba(255, 140, 66, 0.18);
+  outline: 2px solid #ff8c42;
+  outline-offset: 0px;
+  transform: scale(1.13);
+  border-radius: 50%;
+}
+
+.edit-button:active {
+  transform: scale(0.95);
+}
+
+button[type="submit"].delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+button[type="submit"].delete-button:hover {
+  background-color: rgba(255, 66, 66, 0.18);
+  box-shadow: 0 0 0 6px rgba(255, 66, 66, 0.22), 0 2px 8px rgba(255, 66, 66, 0.13);
+  outline: 2px solid #ff4242;
+  outline-offset: 0px;
+  transform: scale(1.13);
+  border-radius: 50%;
+}
+
+button[type="submit"].delete-button:active {
   transform: scale(0.95);
 }
 
