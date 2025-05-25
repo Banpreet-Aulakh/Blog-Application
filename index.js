@@ -9,7 +9,9 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  const sortedPosts = posts.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  const sortedPosts = posts
+    .slice()
+    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
   res.render("index", { route: "/", posts: sortedPosts });
 });
 
@@ -28,6 +30,26 @@ app.post("/create-post", (req, res) => {
     timestamp: timestamp,
   };
   posts.push(post);
+
+  res.redirect("/");
+});
+
+app.post("/delete-post", (req, res) => {
+  const { postId } = req.body;
+
+  if (!postId || isNaN(parseInt(postId))) {
+    return res.redirect("/");
+  }
+
+  const postIdNum = parseInt(postId);
+
+  const postIndex = posts.findIndex((post) => post.id === postIdNum);
+
+  if (postIndex === -1) {
+    return res.redirect("/");
+  }
+
+  posts.splice(postIndex, 1);
 
   res.redirect("/");
 });
