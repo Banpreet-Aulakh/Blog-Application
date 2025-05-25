@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+
+<div class="post-container">
+  <h1>Your Posts</h1>
+  <% if (locals.posts === undefined || locals.posts.length === 0) { %>
+  <p>Make some posts I'm lonely :(</p>
+  <% } else { %><% for (let i = 0; i < locals.posts.length; i++) { %>
+  <div class="post">
+    <h2>Placeholder for post stuff</h2>
+  </div>
+  <% } %> <% } %>
+</div>
+
+<%- include('partials/footer') %>
