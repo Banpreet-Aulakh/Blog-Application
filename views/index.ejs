@@ -1,5 +1,6 @@
 <%- include('partials/header') %>
 
+
 <% if (typeof route !== 'undefined' && route === '/create-post') { %>
 <div class="post-form">
   <h1>Create New Post</h1>
@@ -22,9 +23,12 @@
   <p>Make some posts I'm lonely :(</p>
   <% } else { %><% for (let i = 0; i < locals.posts.length; i++) { %>
   <div class="post">
-    <h2>Placeholder for post stuff</h2>
+    <h2><%= posts[i].title %></h2>
+    <p><%= posts[i].content %></p>
+    <small>Posted on: <%= new Date(posts[i].timestamp).toLocaleString() %></small>
   </div>
-  <% } %> <% } %>
+  <% } %> 
+  <% } %>
 </div>
 <% } %>
 
