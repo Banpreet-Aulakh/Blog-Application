@@ -22,7 +22,7 @@ app.get("/create-post", (req, res) => {
 app.post("/create-post", (req, res) => {
   const { title, content } = req.body;
   const timestamp = new Date().toISOString();
-  const postID = posts.length + 1;
+  const postID = posts.length > 0 ? Math.max(...posts.map(p => p.id)) + 1 : 1;
   const post = {
     id: postID,
     title: title,
@@ -50,6 +50,37 @@ app.post("/delete-post", (req, res) => {
   }
 
   posts.splice(postIndex, 1);
+
+  res.redirect("/");
+});
+
+app.get("/create-post/:id", (req, res) => {
+  const postId = parseInt(req.params.id);
+  const post = posts.find((p) => p.id === postId);
+  if (!post) {
+    return res.redirect("/");
+  }
+
+  res.render("index", {
+    route: `/create-post/${postId}`,
+    postId: postId,
+    post: post, 
+  });
+});
+
+app.post("/create-post/:id", (req, res) => {
+  const postId = parseInt(req.params.id);
+  const { title, content } = req.body;
+
+  const postIndex = posts.findIndex((post) => post.id === postId);
+
+  if (postIndex === -1) {
+    return res.redirect("/");
+  }
+
+  posts[postIndex].title = title;
+  posts[postIndex].content = content;
+  posts[postIndex].timestamp = new Date().toISOString();
 
   res.redirect("/");
 });
