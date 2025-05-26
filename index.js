@@ -54,7 +54,7 @@ app.post("/delete-post", (req, res) => {
   res.redirect("/");
 });
 
-app.get("/create-post/:id", (req, res) => {
+app.get("/edit-post/:id", (req, res) => {
   const postId = parseInt(req.params.id);
   const post = posts.find((p) => p.id === postId);
   if (!post) {
@@ -62,13 +62,13 @@ app.get("/create-post/:id", (req, res) => {
   }
 
   res.render("index", {
-    route: `/create-post/${postId}`,
+    route: `/edit-post/${postId}`,
     postId: postId,
     post: post, 
   });
 });
 
-app.post("/create-post/:id", (req, res) => {
+app.post("/edit-post/:id", (req, res) => {
   const postId = parseInt(req.params.id);
   const { title, content } = req.body;
 

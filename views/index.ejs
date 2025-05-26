@@ -1,11 +1,11 @@
 <%- include('partials/header') %> <% if (typeof route !== 'undefined' && (route
-=== '/create-post' || route.startsWith('/create-post/'))) { %>
+=== '/create-post' || route.startsWith('/edit-post/'))) { %>
 <div class="post-form">
   <h1>
-    <%= route.startsWith('/create-post/') ? 'Edit Post' : 'Create New Post' %>
+    <%= route.startsWith('/edit-post/') ? 'Edit Post' : 'Create New Post' %>
   </h1>
   <form
-    action="<%= route.startsWith('/create-post/') ? route : '/create-post' %>"
+    action="<%= route.startsWith('/edit-post/') ? route : '/create-post' %>"
     method="POST"
   >
     <div class="form-group">
@@ -25,7 +25,7 @@
       >
     </div>
     <button type="submit">
-      <%= route.startsWith('/create-post/') ? 'Update Post' : 'Create Post' %>
+      <%= route.startsWith('/edit-post/') ? 'Update Post' : 'Create Post' %>
     </button>
   </form>
 </div>
@@ -41,7 +41,7 @@
       <button type="submit" class="delete-button">X</button>
     </form>
     <form
-      action="/create-post/<%= posts[i].id %>"
+      action="/edit-post/<%= posts[i].id %>"
       method="GET"
       class="edit-form"
     >
