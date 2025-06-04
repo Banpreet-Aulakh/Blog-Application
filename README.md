@@ -14,6 +14,10 @@ This revolutionary piece of software does what approximately 14 million other bl
 
 4. **Responsive Design** - Looks *almost* acceptable on both your desktop and phone. I call that a win.
 
+5. **Post Using Location** - Share your posts with a touch of geography! Automatically tag your posts with your current location (if you allow it, of course). Because nothing says "privacy" like broadcasting where you are.
+
+6. **Post Using Weather** - Ever wanted to share your thoughts along with the current weather? Now you can! Automatically tag your posts with the local weather conditions (if you allow it). Because nothing complements a rant like knowing it’s raining outside.
+
 ## Technical Stuff For People Who Care
 
 ### Deliverables:
