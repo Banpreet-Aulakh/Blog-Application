@@ -20,15 +20,26 @@ app.get("/create-post", (req, res) => {
 });
 
 app.post("/create-post", (req, res) => {
-  const { title, content } = req.body;
+  const { title, content, shareLocation, latitude, longitude } = req.body;
   const timestamp = new Date().toISOString();
-  const postID = posts.length > 0 ? Math.max(...posts.map(p => p.id)) + 1 : 1;
+  const postID = posts.length > 0 ? Math.max(...posts.map((p) => p.id)) + 1 : 1;
+
   const post = {
     id: postID,
     title: title,
     content: content,
     timestamp: timestamp,
   };
+  if (shareLocation === "true" && latitude && longitude) {
+    post.location = {
+      latitude: parseFloat(latitude),
+      longitude: parseFloat(longitude),
+    };
+    console.log("Location data saved:", post.location);
+  } else {
+    console.log("No location data provided or checkbox not checked");
+  }
+
   posts.push(post);
 
   res.redirect("/");
@@ -64,13 +75,13 @@ app.get("/edit-post/:id", (req, res) => {
   res.render("index", {
     route: `/edit-post/${postId}`,
     postId: postId,
-    post: post, 
+    post: post,
   });
 });
 
 app.post("/edit-post/:id", (req, res) => {
   const postId = parseInt(req.params.id);
-  const { title, content } = req.body;
+  const { title, content, shareLocation, latitude, longitude } = req.body;
 
   const postIndex = posts.findIndex((post) => post.id === postId);
 
@@ -81,6 +92,20 @@ app.post("/edit-post/:id", (req, res) => {
   posts[postIndex].title = title;
   posts[postIndex].content = content;
   posts[postIndex].timestamp = new Date().toISOString();
+
+  if (shareLocation === "true" && latitude && longitude) {
+    posts[postIndex].location = {
+      latitude: parseFloat(latitude),
+      longitude: parseFloat(longitude),
+    };
+    console.log("Location data updated:", posts[postIndex].location);
+  } else {
+    if (posts[postIndex].location) {
+      delete posts[postIndex].location;
+      console.log("Location data removed from post");
+    }
+  }
+  console.log("Updated post:", posts[postIndex]);
 
   res.redirect("/");
 });
