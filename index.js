@@ -1,4 +1,7 @@
-const express = require("express");
+import { fetchWeatherApi } from "openmeteo";
+import express from "express";
+import bodyParser from "body-parser";
+
 const app = express();
 const port = 3000;
 
@@ -7,6 +10,8 @@ app.set("views", "./views");
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
+
+const weatherURL = "https://api.open-meteo.com/v1/forecast";
 
 app.get("/", (req, res) => {
   const sortedPosts = posts
@@ -19,7 +24,7 @@ app.get("/create-post", (req, res) => {
   res.render("index", { route: "/create-post" });
 });
 
-app.post("/create-post", (req, res) => {
+app.post("/create-post", async (req, res) => {
   const { title, content, shareLocation, latitude, longitude } = req.body;
   const timestamp = new Date().toISOString();
   const postID = posts.length > 0 ? Math.max(...posts.map((p) => p.id)) + 1 : 1;
@@ -36,6 +41,8 @@ app.post("/create-post", (req, res) => {
       longitude: parseFloat(longitude),
     };
     console.log("Location data saved:", post.location);
+    const weather = await getWeatherCode(post.location);
+    console.log("Weather code for new post:", weather.current().variables(0).value());
   } else {
     console.log("No location data provided or checkbox not checked");
   }
@@ -79,7 +86,7 @@ app.get("/edit-post/:id", (req, res) => {
   });
 });
 
-app.post("/edit-post/:id", (req, res) => {
+app.post("/edit-post/:id", async (req, res) => {
   const postId = parseInt(req.params.id);
   const { title, content, shareLocation, latitude, longitude } = req.body;
 
@@ -99,12 +106,15 @@ app.post("/edit-post/:id", (req, res) => {
       longitude: parseFloat(longitude),
     };
     console.log("Location data updated:", posts[postIndex].location);
+    const weather = await getWeatherCode(posts[postIndex].location);
+    console.log("Weather for updated post:", weather.current().variables(0).value());
   } else {
     if (posts[postIndex].location) {
       delete posts[postIndex].location;
       console.log("Location data removed from post");
     }
   }
+
   console.log("Updated post:", posts[postIndex]);
 
   res.redirect("/");
@@ -115,3 +125,23 @@ app.listen(port, () => {
 });
 
 let posts = [];
+
+async function getWeatherCode(post) {
+  const latitude = post.latitude;
+  const longitude = post.longitude;
+
+  const params = {
+    latitude: latitude,
+    longitude: longitude,
+    current: "weather_code",
+    forecast_days: 1,
+  };
+
+  try {
+    const response = await fetchWeatherApi(weatherURL, params);
+    return response[0];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
