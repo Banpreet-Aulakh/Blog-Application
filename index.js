@@ -13,15 +13,35 @@ app.use(express.urlencoded({ extended: true }));
 
 const weatherURL = "https://api.open-meteo.com/v1/forecast";
 
+function parseWeatherCode(code) {
+  switch (parseInt(code)) {
+    case 0: return "clear-day";
+    case 1: return "mainly-clear-day"; 
+    case 2: return "partly-cloudy-day";
+    case 3: return "overcast";
+    case 45: return "fog";
+    case 48: return "fog"; 
+    case 51: case 53: case 55: return "drizzle";
+    case 56: case 57: return "drizzle"; 
+    case 61: case 63: case 65: return "rain";
+    case 66: case 67: return "rain"; 
+    case 71: case 73: case 75: case 77: return "snow";
+    case 80: case 81: case 82: return "rain";
+    case 85: case 86: return "snow";
+    case 95: case 96: case 99: return "thunderstorms";
+    default: return "not-available";
+  }
+}
+
 app.get("/", (req, res) => {
   const sortedPosts = posts
     .slice()
     .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-  res.render("index", { route: "/", posts: sortedPosts });
+  res.render("index", { route: "/", posts: sortedPosts, parseWeatherCode });
 });
 
 app.get("/create-post", (req, res) => {
-  res.render("index", { route: "/create-post" });
+  res.render("index", { route: "/create-post", parseWeatherCode });
 });
 
 app.post("/create-post", async (req, res) => {
@@ -42,7 +62,10 @@ app.post("/create-post", async (req, res) => {
     };
     console.log("Location data saved:", post.location);
     const weather = await getWeatherCode(post.location);
-    console.log("Weather code for new post:", weather.current().variables(0).value());
+    if (weather && weather.current && weather.current().variables(0)) {
+      post.weatherCode = weather.current().variables(0).value();
+    }
+    console.log("Weather code for new post:", post.weatherCode);
   } else {
     console.log("No location data provided or checkbox not checked");
   }
@@ -83,6 +106,7 @@ app.get("/edit-post/:id", (req, res) => {
     route: `/edit-post/${postId}`,
     postId: postId,
     post: post,
+    parseWeatherCode
   });
 });
 
@@ -107,10 +131,17 @@ app.post("/edit-post/:id", async (req, res) => {
     };
     console.log("Location data updated:", posts[postIndex].location);
     const weather = await getWeatherCode(posts[postIndex].location);
-    console.log("Weather for updated post:", weather.current().variables(0).value());
+    if (weather && weather.current && weather.current().variables(0)) {
+      posts[postIndex].weatherCode = weather.current().variables(0).value();
+    }
+    console.log(
+      "Weather for updated post:",
+      weather.current().variables(0).value()
+    );
   } else {
     if (posts[postIndex].location) {
       delete posts[postIndex].location;
+      delete posts[postIndex].weatherCode;
       console.log("Location data removed from post");
     }
   }
@@ -145,3 +176,6 @@ async function getWeatherCode(post) {
     return null;
   }
 }
+
+
+

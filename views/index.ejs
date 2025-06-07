@@ -64,11 +64,23 @@
     >
       <button type="submit" class="edit-button">✏️</button>
     </form>
-    <h2><%= posts[i].title %></h2>
+    <h2>
+      <%= posts[i].title %>
+      <% if ('weatherCode' in posts[i] && posts[i].weatherCode !== 'not-available') { %>
+        <img
+          src="/weather-icons/production/line/all/<%=parseWeatherCode(posts[i].weatherCode) %>.svg"
+          alt="Weather Icon"
+          width="48"
+          height="48"
+          style="vertical-align: middle;"
+        />
+    <% } else { %>
+        <small>Weather not available</small>
+    <% } %>
+  </h2>
     <p><%= posts[i].content %></p>
     <small
-      >Posted on: <%= new Date(posts[i].timestamp).toLocaleString() %></small
-    >
+      >Posted on: <%= new Date(posts[i].timestamp).toLocaleString() %></small>
   </div>
   <% } %> <% } %>
 
