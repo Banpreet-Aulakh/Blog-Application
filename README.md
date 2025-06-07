@@ -39,4 +39,4 @@ If any of this code is original, it's because I did it badly.
 
 ## Weather Icons Attribution
 
-This app uses [Meteocons](https://github.com/basmilius/weather-icons) by Bas Milius, licensed under the [MIT License](public/weather-icons-master/weather-icons-master/LICENSE).
+This app uses [Meteocons](https://github.com/basmilius/weather-icons) by Bas Milius, licensed under the [MIT License](public/weather-icons/LICENSE).
