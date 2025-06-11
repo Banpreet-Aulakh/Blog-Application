@@ -25,6 +25,24 @@ This revolutionary piece of software does what approximately 14 million other bl
 * At least one EJS file structuring the website (because plain HTML wasn't complicated enough)
 * At least one CSS file making things pretty (or at least less ugly)
 
+### Tech Stack
+* **Backend**: Node.js with Express.js for server-side logic and routing
+* **Frontend**: EJS templating for dynamic content generation
+* **Styling**: Custom CSS with responsive design using media queries
+* **APIs**: Integration with Open-Meteo weather API
+
+### UX Challenges & Solutions
+* **Geolocation Implementation**: Handling the UX challenge of when to request user location was tricky. The solution was to:
+  * Tie geolocation requests to an explicit user action (checkbox toggle)
+  * Provide visual feedback during location acquisition (disabling submit button)
+  * Create a fallback for when location services are unavailable
+  * Design the UI to look visually consistent with or without weather data
+
+* **Asynchronous Weather Data**: Implemented Promise-based weather API calls that:
+  * Handle potential network failures gracefully
+  * Don't block the UI during data fetching
+  * Update the UI dynamically when data becomes available
+
 ## How To Use This Thing
 
 1. Clone this repository (if you really want to)
